@@ -1,12 +1,12 @@
 function hydrate(s) {
+  const sArr = s.split(', ');
   let count = 0;
-  const sArr = s.split(',');
-  const last = sArr[sArr.length - 1];
+  let last = sArr[sArr.length - 1];
   const idxAnd = last.indexOf('and');
 
   if (idxAnd !== -1) {
-    sArr.push(last.slice(idxAnd+3))
-    last = last.slice(0,idxAnd);
+    sArr.push(last.slice(idxAnd+4))
+    sArr[sArr.length - 2] = last.slice(0,idxAnd-1);
   }
 
   sArr.forEach(str => {
@@ -18,4 +18,8 @@ function hydrate(s) {
   return `${count} ${retStr} of water`;
 }
 
-hydrate("1 beer");
+// const result = hydrate("1 beer");
+const result = hydrate("2 glasses of wine and 1 shot")
+// const result = hydrate("1 shot, 5 beers, 2 shots, 1 glass of wine, 1 beer")
+
+console.log(result);
