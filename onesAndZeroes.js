@@ -9,4 +9,5 @@ function moreZeros(s) {
 }
 
 const result = moreZeros('abcde');
+
 console.log(result);
