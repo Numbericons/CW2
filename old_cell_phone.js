@@ -1,15 +1,3 @@
-//setup output string, which will be the result of converting char into input code
-//variable to track current case
-//var digits = '0123456789', adds - after the digit to add back to message (hold)
-
-//iterate across the message
-//check current case vs. case of char, if different add # and flip current case boolean  
-//helper function that takes to characters
-//it returns if the characters are in the same grouping, in which case a space will be added
-//if current case is upper, convert return value from helper
-
-//0- for holding to get a
-
 const retValGroup = (charVal,charComp) => {
   if (charVal === '#') return ['#', false];
   const groups = [".,?!", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz", "'-+=" ];
@@ -46,7 +34,7 @@ const addAlpha = (char, lowCase) => {
 }
 
 const sendMessage = message => {
-  const digits = '123456789'
+  const digits = '1234567890'
   const alpha = 'abcdefghijklmnopqrstuvwxyz';
   let lowCase = true;
   let keys = "";
@@ -56,6 +44,7 @@ const sendMessage = message => {
     const loChar = char.toLowerCase();
 
     if (digits.includes(char) || char === "#" || char === "*") {
+      if (keys[keys.length - 1] === char) keys += " ";
       keys += char + "-";
     } else if (char === " ") {
       if (message[i-1] === " ") keys += " ";
@@ -66,15 +55,28 @@ const sendMessage = message => {
         if (boolArr[0]) keys += "#";
         lowCase = boolArr[1];
       }
-      let valGroup = retValGroup(loChar, message[i-1]);
-      if (valGroup[1]) keys += " ";
+      const valGroup = retValGroup(loChar, message[i-1]);
+      const last = keys[keys.length - 1];
+      if (last === '4') debugger;
+      if ((valGroup[1] && last !== "#") || last !== '-' && valGroup[0][0] === last) keys += " ";
       keys += lowCase ? valGroup[0] : valGroup[0].toUpperCase();
     }
   }
-
   message = keys;
   return message;
 }
+
+//setup output string, which will be the result of converting char into input code
+//variable to track current case
+//var digits = '0123456789', adds - after the digit to add back to message (hold)
+
+//iterate across the message
+//check current case vs. case of char, if different add # and flip current case boolean  
+//helper function that takes to characters
+//it returns if the characters are in the same grouping, in which case a space will be added
+//if current case is upper, convert return value from helper
+
+//0- for holding to get a
 
 // const result = sendMessage("hey");
 // console.log('Expect: 4433999');
@@ -92,16 +94,22 @@ const sendMessage = message => {
 // console.log('Expect: #2**#9999');
 // console.log(`Actual: ${result4}`);
 
-const result4 = sendMessage("what's up m8?");
-console.log('Expect: 94428*77770887068-111');
-                     //9442877770887068-111
-console.log(`Actual: ${result4}`);
+// const result4 = sendMessage("what's up m8?");
+// console.log('Expect: 94428*77770887068-111');
+//                      //9442877770887068-111
+// console.log(`Actual: ${result4}`);
 
-const result5 = sendMessage("D=b*b-4*a*c");
-console.log('Expect: #3****#22*-22**4-*-2*-222');
-                   //#3****#22  22**4-  2  222
-console.log(`Actual: ${result5}`);
+// const result5 = sendMessage("D=b*b-4*a*c");
+// console.log('Expect: #3****#22*-22**4-*-2*-222');
+//                    //#3****#22  22**4-  2  222
+// console.log(`Actual: ${result5}`);
 
+// const result6 = sendMessage("IDontNeedSpaceWhenICanCapitalizeFirstLetter");
+// console.log(`Actual: ${result6}`);
+                  //  #4443#666 668#66#33 33 3#7777#72 22233#9#443366#444222#266#222#2744482555444999933#333#444777 77778#555#338 833777
+// console.log('Expect: #4443#666 668#66#33 33 3#7777#72 22233#9#443366#444222#266#222#2744482555444999933#333#444777 77778#555#338 833777');
 
-Testing an equation: message - D=b*b-4*a*c
-expected '#3****#2222**4-2222' to equal '#3****#22*-22**4-*-2*-222'
+const result6 = sendMessage("WHY DOES THIS TEXT LOOK SO BIG???");
+console.log(`Actual: ${result6}`);
+                   //#9449990366633777708444447777083399805556666665507777666022444 4111 111 111
+console.log('Expect: #944999036663377770844 444777708339980555666 6665507777666022444 4111 111 111');
