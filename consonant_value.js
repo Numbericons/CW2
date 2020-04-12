@@ -14,7 +14,12 @@ function solve(s) {
   let currCount = 0;
 
   for (let i=0;i<s.length;i++){
-
+    if (vowels.includes(s[i])) {
+      currCount = 0;
+    } else {
+      currCount += alpha.indexOf(s[i]) + 1;
+      if (currCount > count) count = currCount;
+    }
   }
 
   return count;
