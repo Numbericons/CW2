@@ -2,15 +2,15 @@ function Connect4() {
   this.won = false;
   this.currP = 1;
   this.board = [];
-  for (let i=0;i<6;i++) {
-    this.board.push([0,0,0,0,0,0,0]);
+  for (let i=0;i<7;i++) {
+    this.board.push([0,0,0,0,0,0]);
   }
 };
 
 Connect4.prototype.checkWins = function () {
   for (let i=0;i<this.board.length -1;i++) {
     let verCnt = 0;
-    for (let j = this.board[i].length -1;j>0;j--) {
+    for (let j = this.board[i].length -1;j>=0;j--) {
       if (this.board[i][j] === 0) break;
       if (this.board[i][j] === this.currP) {
         verCnt += 1;
@@ -19,10 +19,10 @@ Connect4.prototype.checkWins = function () {
         verCnt = 0;
       }
     }
-    for (let k = 0; k < this.board[i].length-1;k++) {
-      let horCnt = 0;
-      if (this.board[i][k] === this.currP) {
-        horCnt +=1;
+    let horCnt = 0;
+    for (let k = 0; k < this.board[i].length - 1; k++) {
+      if (this.board[k][i] === this.currP) {
+        horCnt += 1;
         if (horCnt === 4) return true;
       } else {
         horCnt = 0;
@@ -34,8 +34,8 @@ Connect4.prototype.checkWins = function () {
 
 Connect4.prototype.play = function (col) {
   if (this.won) return "Game has finished!";
-  if (col[col.length - 1] === 0) return "Column full!";
-  for (let i=this.board[col].length -1;i>0; i--) {
+  if (this.board[col][0] !== 0) return "Column full!";
+  for (let i=this.board[col].length -1;i>=0; i--) {
     if (this.board[col][i] === 0) {
       this.board[col][i] = this.currP;
       break
@@ -68,11 +68,31 @@ Connect4.prototype.play = function (col) {
 //if this results in a win, return: "Player n wins!"
 //if this doesn't result in a win, return: ”Player n has a turn”
 
+// game = new Connect4();
+// game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(0); //"Player 1 wins!", "Should return 'Player 1 wins!'")
+
+// game = new Connect4();
+// game.play(4) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(4) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(4) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(4) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(4) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(4) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(4) // "Column full!", "Should return 'Column full!'")
+
+
 game = new Connect4();
-game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(0); //"Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(1); //"Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(0); //"Player 1 wins!", "Should return 'Player 1 wins!'")
+game.play(1) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+game.play(1) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+game.play(2) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+game.play(2) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+game.play(3) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+game.play(3) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+game.play(4) // "Player 1 wins!", "Should return 'Player 1 wins!'")
+game.play(4) // "Game has finished!", "Should return 'Game has finished!'")
