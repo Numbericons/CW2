@@ -3,15 +3,27 @@ function Connect4() {
   this.currP = 1;
   this.board = [];
   for (let i=0;i<7;i++) {
-    this.board.push([0,0,0,0,0,0]);
+    this.board.push(['X','X','X','X','X','X']);
   }
 };
+
+Connect4.prototype.checkDiag = function (pos,dir) {
+  //make sure pos[0] points to valid column on the board
+  if (!this.board[pos[0]] || !this.board[pos[0]+dir[0]] || !this.board[pos[0]+(2*dir[0])] || !this.board[pos[0]+(3*dir[0])]) return false;
+
+  if (this.board[pos[0]][pos[1]] === this.currP && this.board[pos[0]+dir[0]][pos[1]+dir[1]] === this.currP &&
+      this.board[pos[0]+(2*dir[0])][pos[1]+(2*dir[1])] === this.currP && 
+      this.board[pos[0]+(3*dir[0])][pos[1]+(3*dir[1])] === this.currP) {
+        return true;
+  }
+  return false;
+}
 
 Connect4.prototype.checkWins = function (col, row) {
   for (let i=0;i<this.board.length -1;i++) {
     let verCnt = 0;
     for (let j = this.board[i].length -1;j>=0;j--) {
-      if (this.board[i][j] === 0) break;
+      if (this.board[i][j] === 'X') break;
       if (this.board[i][j] === this.currP) {
         verCnt += 1;
         if (verCnt === 4) return true;
@@ -29,16 +41,20 @@ Connect4.prototype.checkWins = function (col, row) {
       }
     }
   }
-  if (this.board[])
+  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(dir => {
+    if (this.checkDiag([col,row],dir)) return true;
+    if (this.checkDiag([col-dir[0],row-dir[1]],dir)) return true;
+    if (this.checkDiag([col-(2*dir[0]),row-(2*dir[1])],dir)) return true;
+  })
   return false;
 }
 
 Connect4.prototype.play = function (col) {
   let row;
   if (this.won) return "Game has finished!";
-  if (this.board[col][0] !== 0) return "Column full!";
+  if (this.board[col][0] !== 'X') return "Column full!";
   for (let i=this.board[col].length -1;i>=0; i--) {
-    if (this.board[col][i] === 0) {
+    if (this.board[col][i] === 'X') {
       this.board[col][i] = this.currP;
       row = i;
       break
@@ -51,7 +67,6 @@ Connect4.prototype.play = function (col) {
   this.currP = this.currP === 1 ? 2 : 1;
   return `Player ${this.currP === 1 ? 2 : 1} has a turn`;
 };
-
 
 //columns are index (0-6), 7 rows
 //columns are arrays of 7 elements. The bottom is the 7th (i = 6) element
@@ -106,12 +121,12 @@ Connect4.prototype.play = function (col) {
 
 game = new Connect4();
 game.play(1) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(1) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(2) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(2) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(3) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
-game.play(3) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
-game.play(4) // "Player 1 wins!", "Should return 'Player 1 wins!'")
-game.play(4) // "Game has finished!", "Should return 'Game has finished!'")
+// game.play(1) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(2) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(2) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(3) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game.play(3) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
+// game.play(4) // "Player 1 wins!", "Should return 'Player 1 wins!'")
+// game.play(4) // "Game has finished!", "Should return 'Game has finished!'")
 
 
