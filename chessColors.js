@@ -1,7 +1,7 @@
 function chessBoardCellColor(cell1, cell2) {
   const alpha = 'ABCDEFGH'; 
-  const cell1Black = (alpha.indexOf(cell1[0]) + 1 + cell1[1]) % 2;
-  const cell2Black = (alpha.indexOf(cell2[0]) + 1 + cell2[1]) % 2;
+  const cell1Black = (alpha.indexOf(cell1[0]) + 1 + parseInt(cell1[1])) % 2 === 0;
+  const cell2Black = (alpha.indexOf(cell2[0]) + 1 + parseInt(cell2[1])) % 2 === 0;
   return cell1Black === cell2Black;
 }
 
