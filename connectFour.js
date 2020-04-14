@@ -32,7 +32,7 @@ Connect4.prototype.checkWins = function (col, row) {
       }
     }
     let horCnt = 0;
-    for (let k = 0; k < this.board[i].length - 1; k++) {
+    for (let k = 0; k < this.board[i].length; k++) {
       if (this.board[k][i] === this.currP) {
         horCnt += 1;
         if (horCnt === 4) return true;
@@ -41,11 +41,14 @@ Connect4.prototype.checkWins = function (col, row) {
       }
     }
   }
-  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(dir => {
+  const directions = [[-1,-1],[1,-1],[1,1],[-1,1]];
+  for (let s=0;s<directions.length;s++) {
+    let dir = directions[s];
     if (this.checkDiag([col,row],dir)) return true;
     if (this.checkDiag([col-dir[0],row-dir[1]],dir)) return true;
     if (this.checkDiag([col-(2*dir[0]),row-(2*dir[1])],dir)) return true;
-  })
+    if (this.checkDiag([col-(3*dir[0]),row-(3*dir[1])],dir)) return true;
+  }
   return false;
 }
 
@@ -119,8 +122,8 @@ Connect4.prototype.play = function (col) {
 // game.play(4) // "Column full!", "Should return 'Column full!'")
 
 
-game = new Connect4();
-game.play(1) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
+// game = new Connect4();
+// game.play(1) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
 // game.play(1) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
 // game.play(2) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
 // game.play(2) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
@@ -128,5 +131,31 @@ game.play(1) // "Player 1 has a turn", "Should return 'Player 1 has a turn'")
 // game.play(3) // "Player 2 has a turn", "Should return 'Player 2 has a turn'")
 // game.play(4) // "Player 1 wins!", "Should return 'Player 1 wins!'")
 // game.play(4) // "Game has finished!", "Should return 'Game has finished!'")
+
+// game = new Connect4();
+// game.play(3) //1
+// game.play(4)
+// game.play(4)  //1
+// game.play(6)
+// game.play(5)  //1
+// game.play(5)
+// game.play(5)  //1
+// game.play(6)
+// game.play(6)  //1
+// game.play(2)
+// let result = game.play(6)  //1
+// console.log(result);
+
+game = new Connect4();
+game.play(3) //1
+game.play(3)
+game.play(2)  //1
+game.play(2)
+game.play(5)  //1
+game.play(3)
+game.play(3)  //1
+game.play(0)
+let result = game.play(4)  //1
+console.log(result);
 
 
