@@ -21,23 +21,23 @@ Connect4.prototype.checkDiag = function (pos,dir) {
 
 Connect4.prototype.checkWins = function (col, row) {
   for (let i=0;i<this.board.length -1;i++) {
-    let verCnt = 0;
+    let horCnt = 0;
     for (let j = this.board[i].length -1;j>=0;j--) {
       if (this.board[i][j] === 'X') break;
       if (this.board[i][j] === this.currP) {
-        verCnt += 1;
-        if (verCnt === 4) return true;
-      } else {
-        verCnt = 0;
-      }
-    }
-    let horCnt = 0;
-    for (let k = 0; k < this.board[i].length; k++) {
-      if (this.board[k][i] === this.currP) {
         horCnt += 1;
         if (horCnt === 4) return true;
       } else {
         horCnt = 0;
+      }
+    }
+    let verCnt = 0;
+    for (let k = 0; k < this.board[i].length; k++) {
+      if (this.board[k][i] === this.currP) {
+        verCnt += 1;
+        if (verCnt === 4) return true;
+      } else {
+        verCnt = 0;
       }
     }
   }
