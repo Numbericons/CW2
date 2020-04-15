@@ -8,7 +8,7 @@ function nextLemming(array) {
       idx = i;
     }
   });
-  return i;
+  return idx;
 }
 
 function lemmingBattle(battlefield, green, blue) {
@@ -24,7 +24,10 @@ function lemmingBattle(battlefield, green, blue) {
     }
   }
   if (!green.length && !blue.length) return 'Green and Blue died';
-  return (green.length) ? `Green wins: ${green}` : `Blue wins: ${blue}`
+  let msg = (green.length) ? "Green wins:" : "Blue wins:";
+  let winner = (green.length) ? green : blue;
+  winner.forEach(lemming=> msg += ` ${lemming}`)
+  return msg;
 }
 
 //helper determines next greatest lemming for an array of lemmings and returns the power and index
