@@ -7,14 +7,19 @@ function chessNotation(notation) {
     for (let z=0;z<str.length;z++) {
       if (parseInt(str[z])) {
         for (let t=0; t<str[z];t++) {
-          if (parseInt(newArr[7-z-t][0])) {
-            newArr[7-z-t][0] += 1;
+          const num = parseInt(newArr[0+z+t][0]);
+          // const num = parseInt(newArr[7-z-t][0]);
+          if (num) {
+            // newArr[7-z-t] = (num + 1).toString() + newArr[7-z-t].slice(1);
+            newArr[0+z+t] = (num + 1).toString() + newArr[0+z+t].slice(1);
           } else {
-            newArr[7-z-t] = "1" + newArr[7-z-t];
+            // newArr[7-z-t] = "1" + newArr[7-z-t];
+            newArr[0+z+t] = "1" + newArr[0+z+t];
           }
         }
       } else {
-        newArr[7-z] = str[z] + newArr[7-z];
+        // newArr[7-z] = str[z] + newArr[7-z];
+        newArr[0+z] = str[z] + newArr[0+z];
       }
     }
   })
@@ -41,3 +46,6 @@ function chessNotation(notation) {
 //for empty spaces, default to 1 or change next elements value to +1
 
 //return retArr joined appropriately
+
+console.log(chessNotation("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
+// chessNotation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR")
