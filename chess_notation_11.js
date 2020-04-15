@@ -1,9 +1,24 @@
 function chessNotation(notation) {
   const noteArr = notation.split('/');
   let newArr = [];
-  for(let i=0;i<8;i++) { newArr.push([]) };
-  
-  // return retStr;
+  for(let i=0;i<8;i++) { newArr.push("") };
+
+  noteArr.forEach(str => {
+    for (let z=0;z<str.length;z++) {
+      if (parseInt(str[z])) {
+        for (let t=0; t<str[z];t++) {
+          if (parseInt(newArr[7-z-t][0])) {
+            newArr[7-z-t][0] += 1;
+          } else {
+            newArr[7-z-t] = "1" + newArr[7-z-t];
+          }
+        }
+      } else {
+        newArr[7-z] = str[z] + newArr[7-z];
+      }
+    }
+  })
+  return newArr.join('/');
 }
 
 //Starting position and rotated 90 degrees
