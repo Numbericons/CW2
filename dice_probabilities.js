@@ -1,10 +1,10 @@
-function diceSumHelper(dice) { //2
+function diceSumHelper(dice) {
   if (dice ===1) return [[1],[2],[3],[4],[5],[6]];
-  const arr = diceSumHelper(dice-1);   //arr = [[1],[2],[3],[4],[5],[6]];
+  const arr = diceSumHelper(dice-1);
   let retArr = [];
   for (let z=0;z<arr.length;z++) {
     for (let i=1;i<7;i++) {
-      retArr.push(arr[z].concat([i])); //[[1,1]]
+      retArr.push(arr[z].concat([i]));
     }
   }
   return retArr;
@@ -14,11 +14,7 @@ function rolldiceSumProb(target, dice) {
   const arr = diceSumHelper(dice);
   let count = 0;
   for (let j=0;j<arr.length;j++) {
-    let total = 0;
-    for (let k=0;k<arr[j].length;k++) { //refactor to reduce
-      total += arr[j][k];
-    }
-    if (total === target) count += 1;
+    if (arr[j].reduce((a, b) => a + b) === target) count += 1;
   }
   return count / Math.pow(6, dice);
 }
