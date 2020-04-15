@@ -12,20 +12,31 @@ function nextLemming(array) {
 }
 
 function lemmingBattle(battlefield, green, blue) {
+  console.log(battlefield);
+  console.log(green);
+  console.log(blue);
+  let blueWinners = [];
+  let greenWinners = [];  
   while (green.length && blue.length) {
-    for (let i=0; i<battlefield; i++) {
+    const battles = Math.min(battlefield,green.length,blue.length);
+    for (let i=0; i<battles; i++) {
       let greenie = green.splice(nextLemming(green),1)[0];
       let blueie = blue.splice(nextLemming(blue),1)[0];
       if (greenie > blueie) {
-        green.push(greenie - blueie);
+        greenWinners.push(greenie - blueie);
       } else if (blueie > greenie) {
-        blue.push(blueie - greenie);
+        blueWinners.push(blueie - greenie);
       }
     }
+    blue = blue.concat(blueWinners);
+    blueWinners = [];
+    green = green.concat(greenWinners);
+    greenWinners = [];
   }
   if (!green.length && !blue.length) return 'Green and Blue died';
   let msg = (green.length) ? "Green wins:" : "Blue wins:";
   let winner = (green.length) ? green : blue;
+  winner = winner.sort((a, b) => b - a);
   winner.forEach(lemming=> msg += ` ${lemming}`)
   return msg;
 }
@@ -36,3 +47,7 @@ function lemmingBattle(battlefield, green, blue) {
 // pull them out of their respective arrays w/ splice
 // resolve if one or both die and diminishing power for surviving lemmings before adding back
  
+
+const result = lemmingBattle(2, [20, 10], [10, 10, 15]);
+console.log(result);
+
