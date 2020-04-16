@@ -1,9 +1,10 @@
 function toTable(data, headers = false, index = false) {
-  let str = "<table>";
   const start = headers ? 1 : 0;
+  let str = "<table>";
+  let headText = "<thead><tr>";
+  let bodyText = "<tbody>";
 
   if (headers) {
-    let headText = "<thead><tr>";
     data[0].forEach(txt => {
       headText += `<th>${txt}</th>`;
     });
@@ -11,14 +12,14 @@ function toTable(data, headers = false, index = false) {
   }
   
   for (let z=start; z < data.length;z++) {
-    let bodyText = "<tbody>";
-    if (index) bodyText += `<tr>${z}</tr>`; //might be one off
+    if (index) bodyText += `<tr><td>${z}</td></tr>`; //might be one off, does this accurately give all index's?
+    let rowText = "<tr>";
     for (let q=start; q < data[z].length;q++) {
-      
+      rowText += `<td>${data[z][q]}</td>`;
     }
-    
-    str = str + bodyText + "</tbody>";
+    bodyText += rowText + "</tr>";
   }
+  str = str + bodyText + "</tbody>";
 
   return str + "</table>";
 }
