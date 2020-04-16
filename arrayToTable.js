@@ -5,6 +5,7 @@ function toTable(data, headers = false, index = false) {
   let bodyText = "<tbody>";
 
   if (headers) {
+    if (index) headText += `<th></th>`;
     data[0].forEach(txt => {
       headText += `<th>${txt}</th>`;
     });
@@ -12,10 +13,11 @@ function toTable(data, headers = false, index = false) {
   }
   
   for (let z=start; z < data.length;z++) {
-    if (index) bodyText += `<tr><td>${z}</td></tr>`; //might be one off, does this accurately give all index's?
     let rowText = "<tr>";
-    for (let q=start; q < data[z].length;q++) {
-      rowText += `<td>${data[z][q]}</td>`;
+    if (index) rowText += `<td>${z}</td>`; //might be one off, does this accurately give all indices?
+    for (let q=0; q < data[z].length;q++) {
+      let txt = data[z][q] === 'None' ? "" : data[z][q];
+      rowText += `<td>${txt}</td>`;
     }
     bodyText += rowText + "</tr>";
   }
@@ -31,3 +33,7 @@ function toTable(data, headers = false, index = false) {
 // set up body string, if index add a <tr> with that index
 //   might be off by one depending on how we need to account for headers/start
 //iterate through each sub array element from data and build <tr>'s
+
+
+Expected: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td><td>dolor</td><td>sit amet</td></tr></tbody></table>'
+tead got: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td>              <td>sit amet</td></tr></tbody></table>'
