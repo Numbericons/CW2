@@ -14,7 +14,8 @@ function toTable(data, headers = false, index = false) {
   
   for (let z=start; z < data.length;z++) {
     let rowText = "<tr>";
-    if (index) rowText += `<td>${z}</td>`; //might be one off, does this accurately give all indices?
+    let idx = headers ? z : z + 1;
+    if (index) rowText += `<td>${idx}</td>`; //might be one off, does this accurately give all indices?
     for (let q=0; q < data[z].length;q++) {
       let txt = data[z][q] === 'None' ? "" : data[z][q];
       rowText += `<td>${txt}</td>`;
@@ -35,5 +36,8 @@ function toTable(data, headers = false, index = false) {
 //iterate through each sub array element from data and build <tr>'s
 
 
-Expected: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td><td>dolor</td><td>sit amet</td></tr></tbody></table>'
-tead got: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td>              <td>sit amet</td></tr></tbody></table>'
+// Expected: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td><td>dolor</td><td>sit amet</td></tr></tbody></table>'
+// tead got: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td>              <td>sit amet</td></tr></tbody></table>'
+
+Expected: '<table><tbody><tr><td>1</td><td>1</td><td>2</td><td>3</td></tr><tr><td>2</td><td>4</td><td>5</td><td>6</td></tr><tr><td>3</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
+tead got: '<table><tbody><tr><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>5</td><td>6</td></tr><tr><td>2</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
