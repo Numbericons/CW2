@@ -15,9 +15,9 @@ function toTable(data, headers = false, index = false) {
   for (let z=start; z < data.length;z++) {
     let rowText = "<tr>";
     let idx = headers ? z : z + 1;
-    if (index) rowText += `<td>${idx}</td>`; //might be one off, does this accurately give all indices?
+    if (index) rowText += `<td>${idx}</td>`;
     for (let q=0; q < data[z].length;q++) {
-      let txt = data[z][q] === 'None' ? "" : data[z][q];
+      let txt = data[z][q] === null ? "" : data[z][q];
       rowText += `<td>${txt}</td>`;
     }
     bodyText += rowText + "</tr>";
@@ -39,5 +39,9 @@ function toTable(data, headers = false, index = false) {
 // Expected: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td><td>dolor</td><td>sit amet</td></tr></tbody></table>'
 // tead got: '<table><thead><tr><th></th><th>lorem</th><th>ipsum</th></tr></thead><tbody><tr><td>1</td>              <td>sit amet</td></tr></tbody></table>'
 
-Expected: '<table><tbody><tr><td>1</td><td>1</td><td>2</td><td>3</td></tr><tr><td>2</td><td>4</td><td>5</td><td>6</td></tr><tr><td>3</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
-tead got: '<table><tbody><tr><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>5</td><td>6</td></tr><tr><td>2</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
+// Expected: '<table><tbody><tr><td>1</td><td>1</td><td>2</td><td>3</td></tr><tr><td>2</td><td>4</td><td>5</td><td>6</td></tr><tr><td>3</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
+// tead got: '<table><tbody><tr><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>5</td><td>6</td></tr><tr><td>2</td><td>7</td><td>8</td><td>9</td></tr></tbody></table>'
+
+
+// Expected: '<table><thead><tr><th>id</th><th>name</th><th>price</th><th>quantity</th></tr></thead><tbody><tr><td>24351</td><td>pen</td><td>2.41</td><td>500</td></tr><tr><td>    </td><td>pencil</td><td>0.99</td><td>25</td></tr><tr><td>63401</td><td>grizzly bear</td><td>    </td><td>1</td></tr><tr><td>3532</td><td>rubber duck</td><td>5.45</td><td>24</td></tr><tr><td>1523</td><td>    </td><td>3</td><td>6.8</td></tr><tr><td>11765</td><td>caviar</td><td>67.95</td><td>    </td></tr></tbody></table>'
+// tead got: '<table><thead><tr><th>id</th><th>name</th><th>price</th><th>quantity</th></tr></thead><tbody><tr><td>24351</td><td>pen</td><td>2.41</td><td>500</td></tr><tr><td>null</td><td>pencil</td><td>0.99</td><td>25</td></tr><tr><td>63401</td><td>grizzly bear</td><td>null</td><td>1</td></tr><tr><td>3532</td><td>rubber duck</td><td>5.45</td><td>24</td></tr><tr><td>1523</td><td>null</td><td>3</td><td>6.8</td></tr><tr><td>11765</td><td>caviar</td><td>67.95</td><td>null</td></tr></tbody></table>'
