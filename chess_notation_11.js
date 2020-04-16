@@ -10,21 +10,15 @@ function chessNotation(notation) {
       if (parseInt(str[z])) {
         for (let t=0; t<str[z];t++) {
           const num = parseInt(newArr[numOffSet][0]);
-          // const num = parseInt(newArr[z+t][0]);
-          // const num = parseInt(newArr[7-z-t][0]);
           if (num) {
-            // newArr[7-z-t] = (num + 1).toString() + newArr[7-z-t].slice(1);
             newArr[numOffSet] = (num + 1).toString() + newArr[numOffSet].slice(1);
           } else {
-            // newArr[7-z-t] = "1" + newArr[7-z-t];
             newArr[numOffSet] = "1" + newArr[numOffSet];
           }
           numOffSet+=1;
         }
       } else {
-        // newArr[7-z] = str[z] + newArr[7-z];
         newArr[numOffSet] = str[z] + newArr[numOffSet];
-        // newArr[x] = str[z] + newArr[x];
         numOffSet+=1;
       }
     }
@@ -54,4 +48,4 @@ function chessNotation(notation) {
 //return retArr joined appropriately
 
 // console.log(chessNotation("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
-chessNotation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR")
+// chessNotation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR")
