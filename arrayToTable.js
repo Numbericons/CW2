@@ -1,29 +1,28 @@
 function toTable(data, headers = false, index = false) {
   const start = headers ? 1 : 0;
   let str = "<table>";
-  let headText = "<thead><tr>";
   let bodyText = "<tbody>";
 
   if (headers) {
+    let headText = "<thead><tr>";
     if (index) headText += `<th></th>`;
     data[0].forEach(txt => {
       headText += `<th>${txt}</th>`;
     });
     str = str + headText + "</tr></thead>";
   }
-  
-  for (let z=start; z < data.length;z++) {
+
+  for (let z = start; z < data.length; z++) {
     let rowText = "<tr>";
     let idx = headers ? z : z + 1;
     if (index) rowText += `<td>${idx}</td>`;
-    for (let q=0; q < data[z].length;q++) {
+    for (let q = 0; q < data[z].length; q++) {
       let txt = data[z][q] === null ? "" : data[z][q];
       rowText += `<td>${txt}</td>`;
     }
     bodyText += rowText + "</tr>";
   }
   str = str + bodyText + "</tbody>";
-
   return str + "</table>";
 }
 
