@@ -7,15 +7,17 @@ function Game(board) {
 }
 
 Game.prototype.chkRow = function (col, row) {
-  if (!this.board[col]) return false;
-  if (this.board[col][row] !== 1) return false;
+  if (!this.board[col]) return;
   for (let x=row;x<this.board.length;x++) {
     if (this.board[col][x] === 1) {
+      // if (x === 1 && col === 2) debugger;
       this.cnt -= 1;
       this.board[col][x] = 0;
-      if (x === row) this.chkRow(col+1,row);
+        if (this.board[col-1] && this.board[col-1][x] === 1) this.chkRow(col-1,x);
+        if (this.board[col+1] && this.board[col+1][x] === 1) this.chkRow(col+1,x);
+        if (this.board[col] && this.board[col][x-1] === 1) this.chkRow(col,x-1);
     } else {
-      return false;
+      return;
     }
   }
 }
@@ -40,10 +42,23 @@ Game.prototype.play = function () {
 //  then need to see another pellet below, and continue to the right until reach zero
 //    use recursive helper 
 
-const board = [[1, 1, 0, 0, 0],
-[1, 1, 0, 0, 0],
-[0, 0, 0, 0, 0],
-[0, 0, 0, 1, 1],
-[0, 0, 0, 1, 1]];
+// const board = [[1, 1, 0, 0, 0],
+// [1, 1, 0, 0, 0],
+// [0, 0, 0, 0, 0],
+// [0, 0, 0, 1, 1],
+// [0, 0, 0, 1, 1]];
+
+// const board = [[1, 0, 1, 0, 1],
+//                [1, 0, 1, 0, 1],
+//                [1, 1, 1, 0, 0],
+//                [0, 0, 0, 1, 1],
+//                [0, 0, 0, 1, 1]];
+
+board = [[1, 0, 0, 0, 0],
+         [0, 0, 1, 1, 0],
+         [1, 0, 1, 0, 1],
+         [1, 1, 1, 1, 0],
+         [1, 1, 1, 0, 1]];
 
 const game = new Game(board);
+console.log(game.play());
