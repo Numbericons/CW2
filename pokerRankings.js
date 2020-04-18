@@ -47,14 +47,19 @@ function PokerHand(hand) {
     }
   }
   
-  if (straight) { this.rank = 6 };
+  if (straight) { this.rank = 5 };
 
   if (!this.rank) { this.rankBelowSix(handRanks, handSorted) };
 }
 
 PokerHand.prototype.compareWith = function (hand) {
-  let otherHand = new PokerHand(hand);
-  return Result.tie;
+  if (this.rank > hand.rank) {
+    return Result.win;
+  } else if (this.rank < hand.rank) {
+    return Result.loss;
+  } else {
+    return Result.tie;
+  }
 }
 
 PokerHand.prototype.rankBelowSix = function (handRanks, handSorted) {
@@ -64,7 +69,7 @@ PokerHand.prototype.rankBelowSix = function (handRanks, handSorted) {
   for (let k = 0; k < cardCnts.length; k++) {
     if (handRanks[cardCnts[k]] === 4) {
       this.kicker = k === 0 ? cardCnts[1] : cardCnts[0];
-      this.rank = 3;
+      this.rank = 8; //quads
     };
     if (handRanks[cardCnts[k]] === 3) { 
       this.trips = cardCnts[k];
