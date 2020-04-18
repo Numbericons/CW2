@@ -47,7 +47,7 @@ function PokerHand(hand) {
     }
   }
   
-  if (straight) { this.rank = 5 };
+  if (!this.rank && straight) { this.rank = 5 };
 
   if (!this.rank) { this.rankCombos(handRanks, handSorted) };
 }
@@ -146,6 +146,7 @@ PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
       this.kicker = k === 0 ? cardCnts[1] : cardCnts[0];
       this.quads = cardCnts[k];
       this.rank = 8; //quads
+      break;
     };
     if (handRanks[cardCnts[k]] === 3) { 
       this.trips = cardCnts[k];
@@ -171,20 +172,22 @@ PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
       }
     }
   }
-  handSorted = handSorted.sort((a, b) => b - a);
-  if (this.trips) {
-    this.rank = 4;
-    let idx = handSorted.indexOf(this.cardVals.indexOf(this.trips));
-    handSorted.splice(idx,1);
-    this.kicker = `${handSorted.join('')}`;
-  } else if (this.pair) {
-    this.rank = 2;
-    let idx = handSorted.indexOf(this.cardVals.indexOf(this.pair));
-    handSorted.splice(idx,1);
-    this.kicker = `${handSorted.join('')}`;;
-  } else {
-    this.rank = 1;
-    this.kicker = `${handSorted.join('')}`;
+  if (!this.rank) {
+    handSorted = handSorted.sort((a, b) => b - a);
+    if (this.trips) {
+      this.rank = 4;
+      let idx = handSorted.indexOf(this.cardVals.indexOf(this.trips));
+      handSorted.splice(idx,1);
+      this.kicker = `${handSorted.join('')}`;
+    } else if (this.pair) {
+      this.rank = 2;
+      let idx = handSorted.indexOf(this.cardVals.indexOf(this.pair));
+      handSorted.splice(idx,1);
+      this.kicker = `${handSorted.join('')}`;;
+    } else {
+      this.rank = 1;
+      this.kicker = `${handSorted.join('')}`;
+    }
   }
 }
  
@@ -225,3 +228,11 @@ PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
 // let hand1 = new PokerHand("2H 3H 4H 5H 6H");
 // let hand1 = new PokerHand("9D 3H 3S 9H AH");
 // let hand1 = new PokerHand("9D 9C KS 9H AS"); 
+
+// var p = new PokerHand("AS AH 2H AD AC");
+// var o = new PokerHand("JS JD JC JH 3D");
+// p.compareWith(o);
+
+var p = new PokerHand("2H 3H 4H 5H 6H");
+var o = new PokerHand("AS AD AC AH JD");
+p.compareWith(o);
