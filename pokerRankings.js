@@ -1,14 +1,14 @@
 var Result = { "win": 1, "loss": 2, "tie": 3 }
 
 function PokerHand(hand) {
-  let cardVals = "23456789TJQKA";
+  this.cardVals = "23456789TJQKA";
   let suitsObj = { "S": 0, "H": 0, "D": 0, "C": 0 };
   const cards = hand.split(' ');
   
   let handRanks = {};
   let handIndex = [];
   let straight = null;
-  this.kick;
+  this.kicker;
   this.rank;
 
   cards.forEach(card => {
@@ -17,15 +17,14 @@ function PokerHand(hand) {
       straight = false;
     } else {
       handRanks[card[0]] = 1;
-      handIndex.push(cardVals.indexOf(card[0]))
+      handIndex.push(this.cardVals.indexOf(card[0]))
     }
     suitsObj[card[1]] += 1;
   });
 
   const flush = suitsObj["S"] === 5 || suitsObj["H"] === 5 || suitsObj["D"] === 5 || suitsObj["C"] === 5;
   let handSorted = handIndex.sort((a, b) => a - b);
-  this.topCard = handSorted[handSorted.length - 1];
-  this.secondCard;
+  this.topCard = this.cardVals[handSorted[handSorted.length - 1]];
   if (straight !== false) {
     straight = true;
     for (let z=0; z< handSorted.length - 1; z++) {
@@ -38,7 +37,7 @@ function PokerHand(hand) {
 
   if (flush) {
     if (straight) {
-      if (handIndex.includes(cardVals.length - 1)) {
+      if (handIndex.includes(this.cardVals.length - 1)) {
         this.rank = 10;
       } else {
         this.rank = 9;
@@ -50,7 +49,7 @@ function PokerHand(hand) {
   
   if (straight) { this.rank = 6 };
 
-  if (!this.rank) { this.rankBelowSix(handRanks) };
+  if (!this.rank) { this.rankBelowSix(handRanks, handSorted) };
 }
 
 PokerHand.prototype.compareWith = function (hand) {
@@ -58,26 +57,48 @@ PokerHand.prototype.compareWith = function (hand) {
   return Result.tie;
 }
 
-PokerHand.prototype.rankBelowSix = function (handRanks) {
+PokerHand.prototype.rankBelowSix = function (handRanks, handSorted) {
   const cardCnts = Object.keys(handRanks);
-  let trips = false;
-  let pair = false;
+  this.trips = false;
+  this.pair = false;
   for (let k = 0; k < cardCnts.length; k++) {
     if (handRanks[cardCnts[k]] === 4) {
-      //kicker me timbers
+      this.kicker = k === 0 ? cardCnts[1] : cardCnts[0];
       this.rank = 3;
     };
-    if (handRanks[cardCnts[k]] === 3) trips = true;
+    if (handRanks[cardCnts[k]] === 3) { 
+      this.trips = cardCnts[k];
+      if (this.pair) { 
+        this.rank = 7; //full house
+        break;
+      }
+    }
     if (handRanks[cardCnts[k]] === 2) {
-      if (trips) { this.rank = 4};
-      if (pair) {
-        { this.rank = 2 }
+      if (this.trips) { 
+        this.rank = 7; //full house
+        break;
+      };
+      if (this.pair) { 
+        this.rank = 3; //two pair
+        delete handRanks[cardCnts[k]];
+        delete handRanks[this.pair];
+        this.kicker = Object.keys(handRanks)[0];
+        this.pair = this.cardVals.indexOf(cardCnts[k]) > this.cardVals.indexOf(this.pair) ? `${cardCnts[k]}${this.pair}` : `${this.pair}${cardCnts[k]}`;
+        break;
       } else {
-        pair = 1;
+        this.pair = cardCnts[k];
       }
     }
   }
-  if (!this.rank) this.rank = 1;
+  if (this.trips) {
+    this.rank = 4;
+    delete handRanks[this.trips];
+    
+  } else if (this.pair) {
+    this.rank = 2;
+  } else {
+    this.rank = 1;
+  }
 }
  
 
@@ -105,12 +126,14 @@ PokerHand.prototype.rankBelowSix = function (handRanks) {
 //      Compare kickers
 //  3. 2 Pairs
 //    Compare Top pair card
-//      Compare 2nd pair card
+//      Compare 2nd pair card, pair variable is in order of ranks of the pairs
 //        Compare kicker
+
 //  2. Pair
 //    Compare pair card
 //      Compare kickers
 //  1. High Card
 //    Compare kickers
 
-let hand1 = new PokerHand("2H 3H 4H 5H 6H");
+// let hand1 = new PokerHand("2H 3H 4H 5H 6H");
+let hand1 = new PokerHand("9D 3H 3S 9H AH");
