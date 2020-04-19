@@ -1,14 +1,14 @@
 function Card(suit, rank) {
-  const SPADES = "S";
-  const HEARTS = "H";
-  const DIAMONDS = "D";
-  const CLUBS = "C";
-
-  this.suit = suit[0];
   this.suitName = suit;
+  this.suit = suit[0];
   this.rank = rank;
   this.face_card = rank > 10;
 }
+
+Card.SPADES = "S";
+Card.HEARTS = "H";
+Card.DIAMONDS = "D";
+Card.CLUBS = "C";
 
 Card.prototype = {
   toString: function () {
