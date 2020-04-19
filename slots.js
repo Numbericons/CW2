@@ -8,14 +8,16 @@ function fruit(reels, spins) {
     let spinVal = reels[i][spin];
     cntReels[spinVal] = cntReels[spinVal] ? cntReels[spinVal] + 1 : 1;
   })
-  let keys = Object.keys(cntReels);
+  const keys = Object.keys(cntReels);
   for (let z = 0; z < keys.length;z++) {
-    if (cntReels[keys[z]] === 3) return scoreTbl[keys[z]] * 10;
+    const keyVal = scoreTbl[keys[z]];
+    if (cntReels[keys[z]] === 3) return keyVal * 10;
     if (cntReels[keys[z]] === 2) {
-      if (cntReels['Wild'] === 1) return scoreTbl[keys[z]] * 2;
-      return scoreTbl[keys[z]];
+      if (cntReels['Wild'] === 1) return keyVal * 2;
+      return keyVal;
     }
   }
+  return 0;
 }
 
 //receive array of reels, spins is an array of indices where each reel has landed
