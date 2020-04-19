@@ -52,6 +52,61 @@ function PokerHand(hand) {
   if (!this.rank) { this.rankCombos(handRanks, handSorted) };
 }
 
+PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
+  const cardCnts = Object.keys(handRanks);
+  this.trips = false;
+  this.pair = false;
+  for (let k = 0; k < cardCnts.length; k++) {
+    if (handRanks[cardCnts[k]] === 4) {
+      this.kicker = k === 0 ? [cardCnts[1]] : [cardCnts[0]];
+      this.quads = cardCnts[k];
+      this.rank = 8; //quads
+      break;
+    };
+    if (handRanks[cardCnts[k]] === 3) {
+      this.trips = cardCnts[k];
+      if (this.pair) {
+        this.rank = 7; //full house
+        break;
+      }
+    }
+    if (handRanks[cardCnts[k]] === 2) {
+      if (this.trips) {
+        this.rank = 7; //full house
+        this.pair = cardCnts[k];
+        break;
+      };
+      if (this.pair) {
+        this.rank = 3; //two pair
+        delete handRanks[cardCnts[k]];
+        delete handRanks[this.pair];
+        this.kicker = Object.keys(handRanks);
+        this.pair = this.cardVals.indexOf(cardCnts[k]) > this.cardVals.indexOf(this.pair) ? `${cardCnts[k]}${this.pair}` : `${this.pair}${cardCnts[k]}`;
+        break;
+      } else {
+        this.pair = cardCnts[k];
+      }
+    }
+  }
+  if (!this.rank) {
+    handSorted = handSorted.sort((a, b) => b - a);
+    if (this.trips) {
+      this.rank = 4;
+      let idx = handSorted.indexOf(this.cardVals.indexOf(this.trips));
+      handSorted.splice(idx, 1);
+      this.kicker = handSorted;
+    } else if (this.pair) {
+      this.rank = 2;
+      let idx = handSorted.indexOf(this.cardVals.indexOf(this.pair));
+      handSorted.splice(idx, 1);
+      this.kicker = handSorted;;
+    } else {
+      this.rank = 1;
+      this.kicker = handSorted;
+    }
+  }
+}
+
 PokerHand.prototype.compareWith = function (hand) {
   if (this.rank > hand.rank) {
     return Result.win;
@@ -75,8 +130,8 @@ PokerHand.prototype.compareWith = function (hand) {
         return Result.loss;
       }
 
-      let ownKickIdx = this.cardVals.indexOf(this.kicker);
-      let handKickIdx = this.cardVals.indexOf(hand.kicker);
+      let ownKickIdx = this.cardVals.indexOf(this.kicker[0]);
+      let handKickIdx = this.cardVals.indexOf(hand.kicker[0]);
       if (ownKickIdx > handKickIdx) {
         return Result.win;
       } else if (ownKickIdx < handKickIdx) {
@@ -90,8 +145,8 @@ PokerHand.prototype.compareWith = function (hand) {
       } else if (ownTripIdx < handTripIdx) {
         return Result.loss;
       }
-      let ownPairIdx = this.cardVals.indexOf(this.pairs);
-      let handPairIdx = this.cardVals.indexOf(hand.pairs);
+      let ownPairIdx = this.cardVals.indexOf(this.pair);
+      let handPairIdx = this.cardVals.indexOf(hand.pair);
       if (ownPairIdx > handPairIdx) {
         return Result.win;
       } else if (ownPairIdx < handPairIdx) {
@@ -136,61 +191,6 @@ PokerHand.prototype.compareWith = function (hand) {
     return Result.tie;
   }
 }
-
-PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
-  const cardCnts = Object.keys(handRanks);
-  this.trips = false;
-  this.pair = false;
-  for (let k = 0; k < cardCnts.length; k++) {
-    if (handRanks[cardCnts[k]] === 4) {
-      this.kicker = k === 0 ? cardCnts[1] : cardCnts[0];
-      this.quads = cardCnts[k];
-      this.rank = 8; //quads
-      break;
-    };
-    if (handRanks[cardCnts[k]] === 3) { 
-      this.trips = cardCnts[k];
-      if (this.pair) { 
-        this.rank = 7; //full house
-        break;
-      }
-    }
-    if (handRanks[cardCnts[k]] === 2) {
-      if (this.trips) { 
-        this.rank = 7; //full house
-        break;
-      };
-      if (this.pair) { 
-        this.rank = 3; //two pair
-        delete handRanks[cardCnts[k]];
-        delete handRanks[this.pair];
-        this.kicker = Object.keys(handRanks)[0];
-        this.pair = this.cardVals.indexOf(cardCnts[k]) > this.cardVals.indexOf(this.pair) ? `${cardCnts[k]}${this.pair}` : `${this.pair}${cardCnts[k]}`;
-        break;
-      } else {
-        this.pair = cardCnts[k];
-      }
-    }
-  }
-  if (!this.rank) {
-    handSorted = handSorted.sort((a, b) => b - a);
-    if (this.trips) {
-      this.rank = 4;
-      let idx = handSorted.indexOf(this.cardVals.indexOf(this.trips));
-      handSorted.splice(idx,1);
-      this.kicker = `${handSorted.join('')}`;
-    } else if (this.pair) {
-      this.rank = 2;
-      let idx = handSorted.indexOf(this.cardVals.indexOf(this.pair));
-      handSorted.splice(idx,1);
-      this.kicker = `${handSorted.join('')}`;;
-    } else {
-      this.rank = 1;
-      this.kicker = `${handSorted.join('')}`;
-    }
-  }
-}
- 
 
 //PokerHand initialized will determine it's rank as text and a number for comparison
 //check in hand is a straight and flush seperately
@@ -237,9 +237,10 @@ PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
 // var o = new PokerHand("AS AD AC AH JD");
 // p.compareWith(o);
 
-var p = new PokerHand("4S 3H 2C 7S 5H");
-var o = new PokerHand("JH 8S TH AH QH");
-p.compareWith(o);
+// var p = new PokerHand("4S 3H 2C 7S 5H");
+// var o = new PokerHand("JH 8S TH AH QH");
+// p.compareWith(o);
 
-// 2H 2C 3S 3H 3D
-// KH KC 3S 3H 3D
+var p = new PokerHand("2H 2C 3S 3H 3D");
+var o = new PokerHand("KH KC 3S 3H 3D");
+p.compareWith(o);
