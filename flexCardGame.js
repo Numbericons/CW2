@@ -1,5 +1,4 @@
 function Card(suit, rank) {
-  this.suitName = suit;
   this.suit = suit[0];
   this.rank = rank;
   this.face_card = rank > 10;
@@ -13,7 +12,8 @@ Card.CLUBS = "C";
 Card.prototype = {
   toString: function () {
     const values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
-    return `${values[this.rank - 1]} of ${this.suitName}`;
+    const suits = { S: "Spades", H: "Hearts", D: "Diamonds", C: "Clubs" }
+    return `${values[this.rank - 1]} of ${suits[this.suit]}`;
   }
 };
 
