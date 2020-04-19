@@ -233,6 +233,13 @@ PokerHand.prototype.rankCombos = function (handRanks, handSorted) {
 // var o = new PokerHand("JS JD JC JH 3D");
 // p.compareWith(o);
 
-var p = new PokerHand("2H 3H 4H 5H 6H");
-var o = new PokerHand("AS AD AC AH JD");
+// var p = new PokerHand("2H 3H 4H 5H 6H");
+// var o = new PokerHand("AS AD AC AH JD");
+// p.compareWith(o);
+
+var p = new PokerHand("4S 3H 2C 7S 5H");
+var o = new PokerHand("JH 8S TH AH QH");
 p.compareWith(o);
+
+// 2H 2C 3S 3H 3D
+// KH KC 3S 3H 3D
