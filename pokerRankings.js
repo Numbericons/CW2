@@ -43,6 +43,7 @@ function PokerHand(hand) {
         this.rank = 9;
       }
     } else {
+      this.kicker = handSorted.sort((a, b) => b - a);
       this.rank = 6;
     }
   }
@@ -113,7 +114,7 @@ PokerHand.prototype.compareWith = function (hand) {
   } else if (this.rank < hand.rank) {
     return Result.loss;
   } else {
-    if (this.rank === 5 || this.rank === 6 || this.rank > 8) {
+    if (this.rank === 5 || this.rank > 8) {
       let ownTCIdx = this.cardVals.indexOf(this.topCard);
       let handTCIdx = this.cardVals.indexOf(hand.topCard);
       if (ownTCIdx > handTCIdx) {
@@ -151,6 +152,14 @@ PokerHand.prototype.compareWith = function (hand) {
         return Result.win;
       } else if (ownPairIdx < handPairIdx) {
         return Result.loss;
+      }
+    } else if (this.rank === 6) {
+      for (let z = 0; z < this.kicker.length; z++) {
+        if (this.kicker[z] > hand.kicker[z]) {
+          return Result.win;
+        } else if (this.kicker[z] < hand.kicker[z]) {
+          return Result.loss;
+        }
       }
     } else { //trips, 2 pair, pair, pair
       if (this.trips) {
@@ -241,6 +250,8 @@ PokerHand.prototype.compareWith = function (hand) {
 // var o = new PokerHand("JH 8S TH AH QH");
 // p.compareWith(o);
 
-var p = new PokerHand("2H 2C 3S 3H 3D");
-var o = new PokerHand("KH KC 3S 3H 3D");
-p.compareWith(o);
+// var p = new PokerHand("2H 2C 3S 3H 3D");
+// var o = new PokerHand("KH KC 3S 3H 3D");
+// p.compareWith(o);
+
+// var t = new PokerHand("JH 8H AH KH QH");
