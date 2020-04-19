@@ -1,6 +1,5 @@
 function pacMan(N, PM, enemies) {
   let board = [];
-  let coins = 0;
   for (let i=0;i < N;i++) {
     let subArr = [];
     for (let z=0;z < N;z++) {
@@ -17,6 +16,32 @@ function pacMan(N, PM, enemies) {
     board.push(subArr);
   }
 
+  return recPac(PM, board, enemies)
+}
+
+function clearEnemies(pos, enemies) {
+  for (let e=0;e<enemies.length;e++) {
+    if (enemies[e][0] === pos[0] || enemies[e][1] === pos[1]) return true;
+  }
+  return false;
+}
+
+function recPac(pos, board, enemies) {
+  if (board[pos[0]][pos[1]] != 'P' || board[pos[0]][pos[1]] != 'C') return;
+  let coins = board[pos[0]][pos[1]] === 'C' ? 1 : 0;
+  board[pos[0]][pos[1]] = "E";
+  if (clearEnemies([pos[0]+1,pos[1]], enemies) && board[pos[0] + 1] && board[pos[0] + 1][pos[1]] === 'C') {
+    coins += recPac([pos[0] + 1, pos[1]], board, enemies);
+  }
+  if (clearEnemies([pos[0]-1,pos[1]], enemies) && board[pos[0] - 1] && board[pos[0] - 1][pos[1]] === 'C') {
+    coins += recPac([pos[0] - 1, pos[1]], board, enemies);
+  }
+  if (clearEnemies([pos[0],pos[1]+1], enemies) && board[pos[0]] && board[pos[0]][pos[1]+1] === 'C') {
+    coins += recPac([pos[0], pos[1]+1], board, enemies);
+  }
+  if (clearEnemies([pos[0],pos[1]-1], enemies) && board[pos[0]] && board[pos[0]][pos[1]-1] === 'C') {
+    coins += recPac([pos[0], pos[1]-1], board, enemies);
+  }
   return coins;
 }
 
@@ -44,4 +69,4 @@ function pacMan(N, PM, enemies) {
 //      tell if pacman can go right/left or up/down based on the square being a coin (not visited, enemey or starting pos)
 
 
-pacMan(4, [3, 0], [[1, 2]]);
+// pacMan(4, [3, 0], [[1, 2]]);
