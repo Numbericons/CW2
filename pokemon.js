@@ -35,6 +35,9 @@ function calculateDamage(yourType, opponentType, attack, defense) {
 //     pointing to arrays of types that the attacker type is strong and weak against
 //       check if one of these arrays includes the defender (opponent) type and create effectiveness variable
 //         if attacker and defender types are the same, the effectiveness will be poor (.5)
+
+//damage equation: 50 * (attack / defense) * effectiveness
+
 //fire > grass
 // fire < water
 // fire = electric
