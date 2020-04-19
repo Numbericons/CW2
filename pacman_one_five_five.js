@@ -21,13 +21,13 @@ function pacMan(N, PM, enemies) {
 
 function clearEnemies(pos, enemies) {
   for (let e=0;e<enemies.length;e++) {
-    if (enemies[e][0] === pos[0] || enemies[e][1] === pos[1]) return true;
+    if (enemies[e][0] === pos[0] || enemies[e][1] === pos[1]) return false;
   }
-  return false;
+  return true;
 }
 
 function recPac(pos, board, enemies) {
-  if (board[pos[0]][pos[1]] != 'P' || board[pos[0]][pos[1]] != 'C') return;
+  if (board[pos[0]][pos[1]] !== 'P' && board[pos[0]][pos[1]] !== 'C') return;
   let coins = board[pos[0]][pos[1]] === 'C' ? 1 : 0;
   board[pos[0]][pos[1]] = "E";
   if (clearEnemies([pos[0]+1,pos[1]], enemies) && board[pos[0] + 1] && board[pos[0] + 1][pos[1]] === 'C') {
@@ -70,3 +70,9 @@ function recPac(pos, board, enemies) {
 
 
 // pacMan(4, [3, 0], [[1, 2]]);
+// const result = pacMan(1, [0, 0], []);
+const result = pacMan(2, [0, 0], [])
+
+
+
+console.log(result);
