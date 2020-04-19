@@ -14,6 +14,9 @@ Card.prototype = {
     const values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
     const suits = { S: "Spades", H: "Hearts", D: "Diamonds", C: "Clubs" }
     return `${values[this.rank - 1]} of ${suits[this.suit]}`;
+  },
+  valueOf: function () {
+    return this.rank
   }
 };
 
@@ -21,8 +24,8 @@ function Deck() {
   this.cards = [];
   let suits = ["Spades", "Hears", "Diamonds", "Clubs"];
   for (let i = 0; i < suits.length; i++) {
-    for (let j = 0; j < 14; j++) {
-      this.cards.push(new Card(suits[i],j+1));
+    for (let j = 1; j < 14; j++) {
+      this.cards.push(new Card(suits[i], j));
     }
   }
 }
@@ -32,7 +35,11 @@ Deck.prototype = {
     return this.cards.length;
   },
   draw: function (n) {
-    return this.cards.pop();
+    let retArr = [];
+    for (let i = 0; i < n; i++) {
+      retArr.unshift(this.cards.pop());
+    }
+    return retArr;
   },
   shuffle: function () {
     for (let i = this.cards.length - 1; i > 0; i--) {
