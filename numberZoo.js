@@ -5,6 +5,14 @@ function findNumber(array) {
   }
   return end + 1;
 }
+
+const findNumber = array => {
+  const totalLength = array.length + 1
+  const totalSum = (totalLength * (totalLength + 1)) / 2
+  const currentSum = array.reduce((acc, num) => acc + num, 0)
+  return totalSum - currentSum
+}
+
 // function findNumber(array) {
 //   let arr = array.sort((a,b) => ( a - b))
 //   for (let i=0;i<arr.length;i++) {
