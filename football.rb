@@ -15,16 +15,16 @@ class LeagueTable
     string.split(' ').select { |str| @alpha.include?(str[0].downcase) }.join(' ')
   end
 
-  def updateWL(name, points, prevWL)
+  def updateWL(name, points)
     @results[name]['wins'] = 0 unless @results[name]['wins']
     @results[name]['losses'] = 0 unless @results[name]['losses']
     @results[name]['draws'] = 0 unless @results[name]['draws']
     if points == 3
       @results[name]['wins'] += 1
     elsif points == 1
-      @results[name]['losses'] += 1
-    else
       @results[name]['draws'] += 1
+    else
+      @results[name]['losses'] += 1
     end
   end
 
