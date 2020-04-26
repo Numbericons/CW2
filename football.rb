@@ -50,6 +50,7 @@ class LeagueTable
     hScore = getNumber(arr[0])
     aName =  getName(arr[1])
     aScore = getNumber(arr[1])
+    
     if hScore > aScore
       ptsH = 3
       ptsA = 0
@@ -58,7 +59,6 @@ class LeagueTable
       ptsA = 3
     end
     
-    # debugger
     updateTeam(hName, hScore, aName, aScore, ptsH)
     updateTeam(aName, aScore, hName, hScore, ptsA)
   end
@@ -112,6 +112,4 @@ end
 
 lt = LeagueTable.new
 lt.push("Man Utd 3 - 0 Liverpool")
-# lt.get_goals_for("Man Utd")
-# lt.get_points("Man Utd")
 lt.push("Liverpool 1 - 1 Man Utd")
