@@ -1,7 +1,15 @@
 class LeagueTable
-  
   def initialize
     @matches = []
-  end 
+    @results = Hash.new
+  end
 
+  def add_result
+    
+  end
+
+  def push(match)
+    @matches.push(match)
+
+  end
 end
