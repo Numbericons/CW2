@@ -6,13 +6,7 @@ class LeagueTable
   end
 
   def getNumber(string)
-    score = ''
-    string.each_char do |c|
-      unless @alpha.include?(c.downcase)
-        name += c
-      end
-    end
-    return score.to_i
+    string.split(' ').reject { |str| @alpha.include?(str[0]) }[0].to_i
   end
 
   def getName(string)
