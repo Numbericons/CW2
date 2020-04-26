@@ -1,18 +1,16 @@
-require 'byebug'
-
 class LeagueTable
   def initialize
-    @alpha = 'abcdefghijklmnopqrstuvwxyz'
+    @numbers = '0123456789'
     @matches = []
     @results = Hash.new
   end
 
   def getNumber(string)
-    string.split(' ').reject { |str| @alpha.include?(str[0].downcase) }[0].to_i
+    string.split(' ').select { |str| @numbers.include?(str[0].downcase) }[0].to_i
   end
 
   def getName(string)
-    string.split(' ').select { |str| @alpha.include?(str[0].downcase) }.join(' ')
+    string.split(' ').reject { |str| @numbers.include?(str[0].downcase) }.join(' ')
   end
 
   def updateWL(name, points)
@@ -50,7 +48,7 @@ class LeagueTable
     hScore = getNumber(arr[0])
     aName =  getName(arr[1])
     aScore = getNumber(arr[1])
-    
+
     if hScore > aScore
       ptsH = 3
       ptsA = 0
@@ -64,6 +62,7 @@ class LeagueTable
   end
 
   def push(match)
+    puts 'push ' + match
     @matches.push(match)
     updateResults(match.split(' - '))
   end
@@ -110,6 +109,6 @@ class LeagueTable
   end
 end
 
-lt = LeagueTable.new
-lt.push("Man Utd 3 - 0 Liverpool")
-lt.push("Liverpool 1 - 1 Man Utd")
+# lt = LeagueTable.new
+# lt.push("Man Utd 3 - 0 Liverpool")
+# lt.push("Liverpool 1 - 1 Man Utd")
