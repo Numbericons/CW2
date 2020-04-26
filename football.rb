@@ -21,6 +21,7 @@ class LeagueTable
         @results[name][losses] += 1
       else
         @results[name][draws] += 1
+      end
     else
       if points == 3
         @results[name][wins] = 1
@@ -28,6 +29,7 @@ class LeagueTable
         @results[name][losses] = 1
       else
         @results[name][draws] = 1
+      end
     end
   end
 
