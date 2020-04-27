@@ -8,8 +8,7 @@ var splitInteger = function (num, parts) {
   } else {
     let part = Math.ceil(num / parts);
     while (num >= 0) {
-      if (num === 12) debugger;
-      if (num % (part - 1) === 0) { // && num / (part - 1) === parts -1
+      if (num % (part - 1) === 0 && num / (part - 1) === parts) {
         for (let i = 0; i < parts; i++) {
           retArr.push(part - 1);
         }
@@ -26,8 +25,11 @@ var splitInteger = function (num, parts) {
   return retArr;
 }
 
-const result = splitInteger(20, 6)  // returns [3, 3, 3, 3, 4, 4]
+const result = splitInteger(20, 6)
+// const result = splitInteger(81, 17)
+// const result = splitInteger(20, 6)  // returns [3, 3, 3, 3, 4, 4]
 console.log(result);
+console.log(result.reduce((a,b) => (a + b)))
 
 //if num divides evenly into the number of parts return an array of number / parts with length = parts
 //else take the ceiling of the number divided by the parts
