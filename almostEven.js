@@ -7,11 +7,13 @@ var splitInteger = function (num, parts) {
     }
   } else {
     let part = Math.ceil(num / parts);
-    while (num > 0) {
-      if ((part - 1) % parts === 0) {
+    while (num >= 0) {
+      if (num === 12) debugger;
+      if (num % (part - 1) === 0) { // && num / (part - 1) === parts -1
         for (let i = 0; i < parts; i++) {
           retArr.push(part - 1);
         }
+        break;
       } else if (num - part > 0) {
         retArr.push(part);
         parts -= 1;
