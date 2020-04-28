@@ -8,7 +8,7 @@ function makeMove(grid, pos, rowLen, facing) {
     }
     pos = [pos[0], pos[1] + 1];
   }
-  return rowLen;
+  return [rowLen, pos];
 }
 
 function execute(code) {
@@ -23,12 +23,21 @@ function execute(code) {
       if (facing === 0) facing = 4;
     }
     if (code[z] === 'R') facing = (facing + 1) % 4;
-    rowLen = makeMove(grid, pos, rowLen, facing);
+    let moved = makeMove(grid, pos, rowLen, facing);
+    rowLen = moved[0];
+    pos = moved[1];
   }
- 
+
+  for (let x=0;x<grid.length;x++) {
+    grid[x] = grid[x].join('');
+  }
+  
   return grid.join('\r\n');
 }
 
+// const result = execute('');
+const result = execute('FFFFF');
+console.log(result);
 
 //visited squares are a * and blank squares are a " "
 //Grid - 2d array of [row][col]
