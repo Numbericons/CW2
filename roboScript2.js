@@ -10,7 +10,7 @@ function resize(grid, pos, rowLen, facing) {
     for (let col=0;col<rowLen;col++) {
       col === pos[1] ? newLine.push("*") :  newLine.push(" ");
     }
-    facing === 2 ? grid.push(newLine) : grid.unshift(newLine);
+    facing === 2 ? grid.unshift(newLine) : grid.push(newLine);
   }
 }
 
@@ -25,12 +25,12 @@ function makeMove(grid, pos, rowLen, facing) {
     }
     pos = [pos[0], pos[1] + 1];
   } else if (facing === 2) {
-    if (grid[pos[0]+1][pos[1]]) {
-      grid[pos[0]+1][pos[1]] = "*";
+    if (grid[pos[0]-1] && grid[pos[0]-1][pos[1]]) {
+      grid[pos[0]-1][pos[1]] = "*";
     } else {
       resize(grid, pos, rowLen, facing);
     }
-    pos = [pos[0]+1, pos[1]];
+    pos = [pos[0]-1, pos[1]];
   } else if (facing === 3) {
     if (grid[pos[0]][pos[1] - 1]) {
       grid[pos[0]][pos[1] - 1] = "*";
@@ -41,12 +41,12 @@ function makeMove(grid, pos, rowLen, facing) {
     }
     pos = [pos[0], pos[1] - 1];
   } else if (facing === 4) {
-    if (grid[pos[0] - 1][pos[1]]) {
-      grid[pos[0] - 1][pos[1]] = "*";
+    if (grid[pos[0]+1] && grid[pos[0]+1][pos[1]]) {
+      grid[pos[0]+1][pos[1]] = "*";
     } else {
       resize(grid, pos, rowLen, facing);
     }
-    pos = [pos[0] - 1, pos[1]];
+    pos = [pos[0]+1, pos[1]];
   }
   return [rowLen, pos];
 }
@@ -58,15 +58,17 @@ function execute(code) {
   let facing = 1; //1 is right, 2 is down, 3 is left, 4 is up
 
   for (let z=0;z<code.length;z++) {
-    if (z === 4) debugger;
+    if (code[z] === 'L') debugger;
     if (code[z] === 'L') {
       facing = facing - 1;
       if (facing === 0) facing = 4;
     }
     if (code[z] === 'R') facing = (facing + 1) % 4;
-    let moved = makeMove(grid, pos, rowLen, facing);
-    rowLen = moved[0];
-    pos = moved[1];
+    if (code[z] === 'F') {
+      let moved = makeMove(grid, pos, rowLen, facing);
+      rowLen = moved[0];
+      pos = moved[1];
+    }
   }
 
   for (let x=0;x<grid.length;x++) {
@@ -77,7 +79,8 @@ function execute(code) {
 }
 
 // const result = execute('');
-const result = execute("FFFFF");
+// const result = execute("FFFFF");
+const result = execute("FFFFFLFFFFFLFFFFFLFFFFFL");
 console.log(result);
 
 //visited squares are a * and blank squares are a " "
@@ -104,3 +107,6 @@ console.log(result);
 //      make sure to mark an * into the new array in the current row position
 
 //return by joining the rows of the 2d array with \r\n
+
+// Expected: '******\r\n*    *\r\n*    *\r\n*    *\r\n*    *\r\n******'
+// tead got: '*    *\r\n     *\r\n     *\r\n     *\r\n     *\r\n      *\r\n*******\r\n       \r\n       \r\n       \r\n       \r\n       \r\n       '
