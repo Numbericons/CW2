@@ -1,3 +1,19 @@
+function resize(grid, pos, rowLen, facing) {
+  if (facing === 1 || facing === 3) {
+    for (let row=0; row < grid.length; row++) {
+      if (grid[row].length !== rowLen - 1) {
+        facing === 1 ? grid[row].push(" ") : grid[row].unshift(" ");
+      }
+    }
+  } else {
+    let newLine = [];
+    for (let col=0;col<rowLen;col++) {
+      col === pos[1] ? newLine.push("*") :  newLine.push(" ");
+    }
+    facing === 2 ? grid.push(newLine) : grid.unshift(newLine);
+  }
+}
+
 function makeMove(grid, pos, rowLen, facing) {
   if (facing === 1) {
     if (grid[pos[0]][pos[1] + 1]) {
@@ -5,8 +21,32 @@ function makeMove(grid, pos, rowLen, facing) {
     } else {
       grid[pos[0]].push("*");
       rowLen += 1;
+      resize(grid, pos, rowLen, facing);
     }
     pos = [pos[0], pos[1] + 1];
+  } else if (facing === 2) {
+    if (grid[pos[0]+1][pos[1]]) {
+      grid[pos[0]+1][pos[1]] = "*";
+    } else {
+      resize(grid, pos, rowLen, facing);
+    }
+    pos = [pos[0]+1, pos[1]];
+  } else if (facing === 3) {
+    if (grid[pos[0]][pos[1] - 1]) {
+      grid[pos[0]][pos[1] - 1] = "*";
+    } else {
+      grid[pos[0]].unshift("*");
+      rowLen += 1;
+      resize(grid, pos, rowLen, facing);
+    }
+    pos = [pos[0], pos[1] - 1];
+  } else if (facing === 4) {
+    if (grid[pos[0] - 1][pos[1]]) {
+      grid[pos[0] - 1][pos[1]] = "*";
+    } else {
+      resize(grid, pos, rowLen, facing);
+    }
+    pos = [pos[0] - 1, pos[1]];
   }
   return [rowLen, pos];
 }
