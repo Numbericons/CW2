@@ -51,7 +51,31 @@ function makeMove(grid, pos, rowLen, facing) {
   return [rowLen, pos];
 }
 
+function parseCode(code) {
+  const commands = "FLR";
+  let retStr = "";
+  for (let k=0;k<code.length;k++) {  // k = 1, code[k] = F, code[k+1] = 5
+    if (commands.includes(code[k]) && (k === code.length - 1 || commands.includes(code[k+1]))) {
+      retStr += code[k];
+    } else {
+      let numIdx = k+1;
+      let len = 1;
+      while (!commands.includes(code[numIdx+1]) && (numIdx+1)< code.length) { 
+        numIdx++;
+        len++;
+      }
+      let numb = parseInt(code.slice(k+1,k+1+len));
+      for (let z=0;z<numb;z++) {
+        retStr += code[k];
+      }
+      k = numIdx;
+    }
+  }
+  return retStr;
+}
+
 function execute(code) {
+  code = parseCode(code);
   let grid = [["*"]];
   let pos = [0,0];
   let rowLen = 1;
@@ -71,16 +95,19 @@ function execute(code) {
     }
   }
 
+  let retArr = [];
   for (let x=0;x<grid.length;x++) {
-    grid[x] = grid[x].join('');
+    retArr.unshift(grid[x].join(''));
+    // grid[x] = grid[x].join('');
   }
   
-  return grid.join('\r\n');
+  return retArr.join('\r\n');
+  // return grid.join('\r\n');
 }
 
 // const result = execute('');
-// const result = execute("FFFFF");
-const result = execute("FFFFFLFFFFFLFFFFFLFFFFFL");
+const result = execute("FFFFF");
+// const result = execute("FFFFFLFFFFFLFFFFFLFFFFFL");
 console.log(result);
 
 //visited squares are a * and blank squares are a " "
@@ -110,3 +137,9 @@ console.log(result);
 
 // Expected: '******\r\n*    *\r\n*    *\r\n*    *\r\n*    *\r\n******'
 // tead got: '*    *\r\n     *\r\n     *\r\n     *\r\n     *\r\n      *\r\n*******\r\n       \r\n       \r\n       \r\n       \r\n       \r\n       '
+
+// Expected: '    ****\r\n    *  *\r\n    *  *\r\n********\r\n    *   \r\n    *   '
+// tead got: '    *   \r\n    *   \r\n********\r\n    *  *\r\n    *  *\r\n    ****'
+
+// Expected: '    ****\r\n    *  *\r\n    *  *\r\n********\r\n    *   \r\n    *   '
+// tead got: '**\r\n**'
