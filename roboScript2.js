@@ -1,7 +1,7 @@
 function resize(grid, pos, rowLen, facing) {
   if (facing === 1 || facing === 3) {
     for (let row=0; row < grid.length; row++) {
-      if (grid[row].length !== rowLen - 1) {
+      if (grid[row].length < rowLen) {
         facing === 1 ? grid[row].push(" ") : grid[row].unshift(" ");
       }
     }
@@ -58,6 +58,7 @@ function execute(code) {
   let facing = 1; //1 is right, 2 is down, 3 is left, 4 is up
 
   for (let z=0;z<code.length;z++) {
+    if (z === 4) debugger;
     if (code[z] === 'L') {
       facing = facing - 1;
       if (facing === 0) facing = 4;
@@ -76,7 +77,7 @@ function execute(code) {
 }
 
 // const result = execute('');
-const result = execute('FFFFF');
+const result = execute("FFFFF");
 console.log(result);
 
 //visited squares are a * and blank squares are a " "
