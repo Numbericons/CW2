@@ -30,7 +30,8 @@ function makeMove(grid, pos, rowLen, facing) {
     } else {
       resize(grid, pos, rowLen, facing);
     }
-    pos = [pos[0]-1, pos[1]];
+    let newX = pos[0] - 1 >= 0 ? pos[0] - 1 : 0;
+    pos = [newX, pos[1]];
   } else if (facing === 3) {
     if (grid[pos[0]][pos[1] - 1]) {
       grid[pos[0]][pos[1] - 1] = "*";
@@ -39,7 +40,8 @@ function makeMove(grid, pos, rowLen, facing) {
       rowLen += 1;
       resize(grid, pos, rowLen, facing);
     }
-    pos = [pos[0], pos[1] - 1];
+    let newY = pos[1] - 1 >= 0 ? pos[1] - 1 : 0;
+    pos = [pos[0], newY];
   } else if (facing === 4) {
     if (grid[pos[0]+1] && grid[pos[0]+1][pos[1]]) {
       grid[pos[0]+1][pos[1]] = "*";
@@ -80,9 +82,8 @@ function execute(code) {
   let pos = [0,0];
   let rowLen = 1;
   let facing = 1; //1 is right, 2 is down, 3 is left, 4 is up
-
   for (let z=0;z<code.length;z++) {
-    if (code[z] === 'L') debugger;
+    // if (code[z] === 'L' || code[z] === 'R') debugger;
     if (code[z] === 'L') {
       facing = facing - 1;
       if (facing === 0) facing = 4;
@@ -106,8 +107,9 @@ function execute(code) {
 }
 
 // const result = execute('');
-const result = execute("FFFFF");
+// const result = execute("FFFFF");
 // const result = execute("FFFFFLFFFFFLFFFFFLFFFFFL");
+const result = execute("FFFLLFFFFFFRRFFFLFFFRRFFFFFFFF");
 console.log(result);
 
 //visited squares are a * and blank squares are a " "
@@ -143,3 +145,8 @@ console.log(result);
 
 // Expected: '    ****\r\n    *  *\r\n    *  *\r\n********\r\n    *   \r\n    *   '
 // tead got: '**\r\n**'
+
+// Expected: '   *   \r\n   *   \r\n   *   \r\n*******\r\n   *   \r\n   *   \r\n   *   \r\n   *   \r\n   *   '
+// tead got: '*        \r\n*        \r\n*        \r\n*********\r\n*        \r\n*        \r\n*        \r\n*        \r\n*        '
+// tead got: '   *   \r\n   *   \r\n   *   \r\n*******\r\n   *   \r\n   *   \r\n   *   \r\n   *   \r\n   *   '
+
