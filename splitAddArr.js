@@ -7,14 +7,14 @@ function splitAndAdd(arr, n) {
   for (let z=0; z<arr2.length;z++) {
     if (!evenLen && z === 0) {
       retArr.push(arr2[z]); 
-      continue;
+    } else {
+      evenLen ? retArr.push(arr1[z] + arr2[z]) : retArr.push(arr1[z-1] + arr2[z]);
     }
-    evenLen ? arr.push(arr1[z] + arr2[z]) : arr.push(arr1[z-1] + arr2[z]);
   }
   return splitAndAdd(retArr, n-1);
 }
 
-const result = splitAndAdd([1,2,3,4,5], 2);
+const result = splitAndAdd([1,2,3,4,5], 2); //[5, 10]
 console.log(result);
 
 //recursive function
