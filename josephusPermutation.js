@@ -1,0 +1,2 @@
+function josephus(items, k) {
+}
