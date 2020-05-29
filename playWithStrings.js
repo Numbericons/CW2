@@ -16,7 +16,8 @@ function workOnStrings(a, b) {
   return a + b;
 }
 
-workOnStrings("abc", "cde");
+// workOnStrings("abc", "cde");
+workOnStrings("abab", "bababa");
 
 
 // helper to do individual swaps of the given character within the target strings a or b
