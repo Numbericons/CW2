@@ -13,14 +13,24 @@ function permu(arr) {
   return combine(curr, _permu);
 }
 
+function currArr(idx, arr) {
+  let retArr = arr.split().join();
+  retArr.splice(idx,1);
+  return retArr;
+}
+
 function nextBigger(n) {
   let poss = [];
   let arr = n.toString().split();
   for (let j=0;j<arr.length;j++) {
-    poss.push(permu(arr))
+    const currArr = currArr(j, arr);
+    poss.push(permu(currArr));
   }
-  permu(n.toString().split());
+  // permu(n.toString().split());
 }
+
+const result = nextBigger(12);
+console.log(result);
 
 //idea 1: check all possible permutations of numbers that can be made from digits
 //  see which is next largest of possiblities
