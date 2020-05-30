@@ -1,5 +1,5 @@
 function combine(el, array) {
-  let retArr = array.split().join();
+  let retArr = array.split("").join("");
   for (let z=0;z<array.length;z++) {
     retArr[z].unshift(el);
   }
@@ -14,22 +14,24 @@ function permu(arr) {
 }
 
 function currArr(idx, arr) {
-  let retArr = arr.split().join();
+  let retArr = arr.join("").split("");
   retArr.splice(idx,1);
   return retArr;
 }
 
 function nextBigger(n) {
   let poss = [];
-  let arr = n.toString().split();
-  for (let j=0;j<arr.length;j++) {
-    const currArr = currArr(j, arr);
-    poss.push(permu(currArr));
+  let nArr = n.toString().split("");
+  for (let j=0;j<nArr.length;j++) {
+    const arr = currArr(j, nArr);
+    const currVar = combine(nArr[j], arr);
+    poss.push(currVar);
   }
+  let cat = 'dog';
   // permu(n.toString().split());
 }
 
-const result = nextBigger(12);
+const result = nextBigger(123);
 console.log(result);
 
 //idea 1: check all possible permutations of numbers that can be made from digits
