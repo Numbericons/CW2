@@ -1,6 +1,7 @@
 function combine(el, array) {
   let retArr = array.slice();
   for (let z=0;z<array.length;z++) {
+    if (!Array.isArray(retArr[z])) retArr[z] = [retArr[z]];
     retArr[z].unshift(el);
   }
   return retArr;
@@ -14,7 +15,6 @@ function addArr(arr1,arr2,el) {
   return retArr;
 }
 
-
 function permuComb(el, arr) {
   let retArr = []
   for (let x=0;x<arr.length;x++) {
@@ -23,9 +23,6 @@ function permuComb(el, arr) {
   retArr.push(addArr(arr,null,el));
   return retArr;
 }
-
-// first pass get the element in front of the (rest) of array so   [2,3]
-//after for loop, push in arr + the element as the tail/last element
 
 function permu(arr) { // [2,3]
   if (arr.length === 1) return arr;
@@ -39,21 +36,30 @@ function currArr(idx, arr) {
   return retArr;
 }
 
-function nextBigger(n) {
+function possibilities(n) {
   let poss = [];
   let nArr = n.toString().split("");
-  for (let j=0;j<nArr.length;j++) {
+  for (let j = 0; j < nArr.length; j++) {
     const arr = currArr(j, nArr);
     const recArr = permu(arr);
     const currVar = combine(nArr[j], recArr);
-    currVar.forEach(el=> poss.push(parseInt(el.join(""))))
-    poss.push(currVar);
+    currVar.forEach(el => poss.push(parseInt(el.join(""))))
   }
-  let cat = 'dog';
-  // permu(n.toString().split());
+  return poss;
 }
 
-const result = nextBigger(123);
+function nextBigger(n) {
+  let poss = possibilities(n).sort((a,b) => a - b);
+  const next = poss[poss.indexOf(n) + 1];
+  return next ? next : -1;
+}
+
+// const result = nextBigger(12);
+// const result = nextBigger(123);
+// const result = nextBigger(513);
+const result = nextBigger(2017);
+// const result = nextBigger(1085123);
+// const result = nextBigger(1234);
 console.log(result);
 
 // addArr(["1","2"],["4","5"], "3");
@@ -75,3 +81,7 @@ console.log(result);
 //  1010
 //   560  => 650
 // 1200
+
+//permComb notes
+// first pass get the element in front of the (rest) of array so   [2,3]
+//after for loop, push in arr + the element as the tail/last element
