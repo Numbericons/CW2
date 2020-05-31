@@ -1,20 +1,40 @@
 function combine(el, array) {
-  let retArr = array.split("").join("");
+  let retArr = array.slice();
   for (let z=0;z<array.length;z++) {
     retArr[z].unshift(el);
   }
   return retArr;
 }
 
-function permu(arr) {
+function addArr(arr1,arr2,el) {
+  let retArr = [];
+  arr1.forEach(el => retArr.push(el));
+  retArr.push(el);
+  if (arr2) arr2.forEach(el => retArr.push(el));
+  return retArr;
+}
+
+
+function permuComb(el, arr) {
+  let retArr = []
+  for (let x=0;x<arr.length;x++) {
+    retArr.push(addArr(arr.slice(0,x), arr.slice(x), el));
+  }
+  retArr.push(addArr(arr,null,el));
+  return retArr;
+}
+
+// first pass get the element in front of the (rest) of array so   [2,3]
+//after for loop, push in arr + the element as the tail/last element
+
+function permu(arr) { // [2,3]
   if (arr.length === 1) return arr;
-  let curr = arr.shift();
-  let _permu = perm(arr);
-  return combine(curr, _permu);
+  let curr = arr.shift(); //2 //[3]
+  return permuComb(curr, permu(arr)); //2, [3]
 }
 
 function currArr(idx, arr) {
-  let retArr = arr.join("").split("");
+  let retArr = arr.slice();
   retArr.splice(idx,1);
   return retArr;
 }
@@ -24,7 +44,9 @@ function nextBigger(n) {
   let nArr = n.toString().split("");
   for (let j=0;j<nArr.length;j++) {
     const arr = currArr(j, nArr);
-    const currVar = combine(nArr[j], arr);
+    const recArr = permu(arr);
+    const currVar = combine(nArr[j], recArr);
+    currVar.forEach(el=> poss.push(parseInt(el.join(""))))
     poss.push(currVar);
   }
   let cat = 'dog';
@@ -33,6 +55,8 @@ function nextBigger(n) {
 
 const result = nextBigger(123);
 console.log(result);
+
+// addArr(["1","2"],["4","5"], "3");
 
 //idea 1: check all possible permutations of numbers that can be made from digits
 //  see which is next largest of possiblities
