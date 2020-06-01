@@ -1,3 +1,11 @@
+Object.defineProperty(Array.prototype, 'flat', {
+  value: function (depth = 1) {
+    return this.reduce(function (flat, toFlatten) {
+      return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten);
+    }, []);
+  }
+});
+
 function combine(el, array) {
   let retArr = array.slice();
   for (let z=0;z<array.length;z++) {
@@ -42,6 +50,8 @@ function possibilities(n) {
   for (let j = 0; j < nArr.length; j++) {
     const arr = currArr(j, nArr);
     const recArr = permu(arr);
+    let flat = [];
+    recArr.forEach(el => flat.push(el.flat()));
     const currVar = combine(nArr[j], recArr);
     currVar.forEach(el => poss.push(parseInt(el.join(""))))
   }
