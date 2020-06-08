@@ -6,7 +6,7 @@ Object.defineProperty(Array.prototype, 'flat', {
   }
 });
 
-function combine(el, array) {
+function addToFront(el, array) {
   let retArr = array.slice();
   for (let z=0;z<array.length;z++) {
     if (!Array.isArray(retArr[z])) retArr[z] = [retArr[z]];
@@ -20,7 +20,7 @@ function addArr(arr1,arr2,el) {
   arr1.forEach(el => retArr.push(el));
   retArr.push(el);
   if (arr2) arr2.forEach(el => retArr.push(el));
-  return retArr;
+  return retArr;q
 }
 
 function permuComb(el, arr) {
@@ -52,7 +52,7 @@ function possibilities(n) {
     const recArr = permu(arr);
     let flat = [];
     recArr.forEach(el => flat.push(el.flat()));
-    const currVar = combine(nArr[j], recArr);
+    const currVar = addToFront(nArr[j], recArr);
     currVar.forEach(el => poss.push(parseInt(el.join(""))))
   }
   return poss;
@@ -66,8 +66,8 @@ function nextBigger(n) {
 
 // const result = nextBigger(12);
 // const result = nextBigger(123);
-// const result = nextBigger(513);
-const result = nextBigger(2017);
+const result = nextBigger(513);
+// const result = nextBigger(2017);
 // const result = nextBigger(1085123);
 // const result = nextBigger(1234);
 console.log(result);
