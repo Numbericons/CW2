@@ -1,12 +1,11 @@
 var encryptThis = function (text) {
   let arr = text.split(' ');
-  let str = "";
 
-  for (let z=0; z< arr.length;z++) {
-
-  }
-
-  return str;
+  arr = arr.map(str => {
+    if (str.length < 3) return str.charCodeAt(0) + (str[1] ? str[1] : "");
+    return str.charCodeAt(0) + str[str.length - 1] + str.slice(2, str.length - 1) + str[1]
+  });
+  return arr.join(' ');
 }
 
 //split text on spaces and return space seperated words
